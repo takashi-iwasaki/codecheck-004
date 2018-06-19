@@ -1,13 +1,14 @@
 package codecheck;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class App {
 	public static void main(String[] args) {
 
-		//引数3個以外はエラー
-		if (args.length != 3) {
+		//引数2個未満はエラー
+		if (args.length <= 2) {
 			System.out.println("Error01!");
 			return;
 		}
@@ -15,26 +16,27 @@ public class App {
 		StringBuilder sb = new StringBuilder();
 
 		//値の格納用
-		Map<String, String> keyMap = new HashMap<>();
+		Map<Integer, String> keyMap = new HashMap<>();
 
-		String[] params1 = args[0].split(":");
-		String[] params2 = args[1].split(":");
+		for (int i = 0; i < args.length - 1; i++) {
 
-		if (Integer.parseInt(params1[0]) <= Integer.parseInt(params2[0])) {
+			String[] params = args[i].split(":");
+			keyMap.put(Integer.parseInt(params[0]), params[1]);
 
-			if (Integer.parseInt(args[2]) % Integer.parseInt(params1[0]) == 0) {
-				sb.append(params1[1]);
+		}
+
+		int targetParam = Integer.parseInt(args[args.length - 1]);
+
+		// キーでソート
+		Object[] mapkey = keyMap.keySet().toArray();
+		Arrays.sort(mapkey);
+
+		for (Integer nKey : keyMap.keySet()) {
+
+			if (targetParam % nKey == 0) {
+				sb.append(keyMap.get(nKey));
 			}
-			if (Integer.parseInt(args[2]) % Integer.parseInt(params2[0]) == 0) {
-				sb.append(params2[1]);
-			}
-		} else {
-			if (Integer.parseInt(args[2]) % Integer.parseInt(params2[0]) == 0) {
-				sb.append(params2[1]);
-			}
-			if (Integer.parseInt(args[2]) % Integer.parseInt(params1[0]) == 0) {
-				sb.append(params1[1]);
-			}
+
 		}
 
 		if (sb.length() == 0) {
