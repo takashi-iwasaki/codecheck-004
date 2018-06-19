@@ -40,7 +40,7 @@ public class App {
 		}
 
 		if (sb.length() == 0) {
-			System.out.println(args[2]);
+			System.out.println(args[args.length - 1]);
 		} else {
 			System.out.println(sb.toString());
 		}
